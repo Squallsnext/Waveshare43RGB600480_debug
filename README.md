@@ -78,10 +78,10 @@ Metrics:
 
 ## How to Restart Session Safely
 
-**Automatic (via Hooks):**
-- On session start: `session-start-hook` triggers `make session-start` (loads context automatically)
-- On session end: `stop-hook` triggers `make checkpoint` (saves deltas + context)
-- On tool execution: `post-tool-use-hook` monitors budget (generates HANDOFF.md if needed)
+**Automatic (via Claude Code Hooks):**
+- On session start (new or resume): `SessionStart` hook triggers `.claude/hooks/startup.sh` or `.claude/hooks/resume.sh` (loads context automatically)
+- On session end: `SessionEnd` hook triggers `.claude/hooks/cleanup.sh` (updates STATE.md + TODO.md, generates HANDOFF.md if budget low)
+- On tool execution (every 10 calls): `PostToolUse` hook monitors budget via `.claude/hooks/post-tool-budget.sh` (blocks if budget CRITICAL)
 
 **Manual Fallback (if hooks disabled):**
 

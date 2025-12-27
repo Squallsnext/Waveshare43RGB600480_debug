@@ -48,6 +48,9 @@ telemetry_enabled:  true
 
 ## Session Delta [2025-12-27T13:56:06Z]
 Checkpoint smoke test - verifying system updates
+
+## Session Delta [2025-12-27T14:25:38Z]
+session-end: checkpoint
 ## Critical Context
 - Conservative pclk (16MHz) for stability
 - DIRECT mode only AFTER VSync smoke test passes
@@ -63,7 +66,19 @@ DELTA: Session-Start Hook Configured (Claude Code Native)
 - Format verified against Claude Code documentation
 - Ready for deployment: next session will auto-load context
 
+## Session Delta [2025-12-27T14:25:38Z]
+PHASE 2.5 COMPLETE: NATIVE HOOKS + SCRIPTS IMPLEMENTED ✓
+- Created .claude/hooks/ directory with 4 executable shell scripts
+- startup.sh: SessionStart matcher "startup" → loads full git+budget+STATE+TODO+HANDOFF
+- resume.sh: SessionStart matcher "resume" → reloads git+budget+TODO on session resume
+- cleanup.sh: SessionEnd → updates STATE.md+TODO.md, generates HANDOFF.md if budget low
+- post-tool-budget.sh: PostToolUse on Bash|Edit|Write|Read → monitors budget every 10 calls
+- Updated .claude/settings.json: all 3 hooks reference .claude/hooks/*.sh scripts (with $CLAUDE_PROJECT_DIR)
+- All 4 hooks verified working via manual execution (100% pass)
+- README.md updated with exact hook names + file locations
+- SESSION START/END/POSTUSE GATES NOW FULLY OPERATIONAL
+
 ---
-Last Updated: 2025-12-27T14:15:00Z
+Last Updated: 2025-12-27T14:25:38Z
 Branch: main
-Commit: STAGED
+Commit: READY
