@@ -128,10 +128,17 @@ make session-start    # Runs all 5 checks at once
 **Make Targets:**
 ```bash
 make session-start           # Load full context (git status + budget + STATE + TODO + HANDOFF)
-make checkpoint              # Interactively update STATE.md delta + TODO.md top10
+make checkpoint              # Interactively update STATE.md delta + TODO.md top10 (prompts for description)
+make checkpoint-auto         # Non-interactive checkpoint for hooks (uses $AUTO_DESC or "auto snapshot")
 make check-budget            # Verify docs exist + show status
 make handoff                 # Generate HANDOFF.md for emergency restart
 ```
+
+**checkpoint vs checkpoint-auto:**
+| Target | Interactive | Use Case |
+|--------|-------------|----------|
+| `checkpoint` | Yes (prompts) | Manual use in terminal |
+| `checkpoint-auto` | No | Hooks, scripts, CI/CD |
 
 ---
 
