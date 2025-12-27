@@ -52,7 +52,7 @@ telemetry_enabled:     true
 8. Doc gate - STATE.md + TODO.md before commit
 
 
-## Session Delta [2025-12-27T17:18:14Z]
+## Session Delta [2025-12-27T17:19:03Z]
 hook: auto snapshot
 ## Critical Context
 - Verified pins from Waveshare demo (08_lvgl_Porting)
@@ -64,10 +64,13 @@ hook: auto snapshot
 
 ## Recent Deltas (last 5)
 
+### [2025-12-27T17:45] STATE.md Rotation
+- Archived 407 lines to docs/state_history/STATE_20251227.md
+- Reduced STATE.md from 446 to ~90 lines
+
 ### [2025-12-27T17:30] Phase 4.1 LCD Init Complete
 - board_pins.h: All 16 RGB data pins from Waveshare demo
 - board_lcd.c: pclk_active_neg=1, correct timing
-- idf_component.yml: LVGL 9.2 dependency
 - Build: 222 KB (PASS)
 
 ### [2025-12-27T16:15] Phase 3.0 Documentation
@@ -76,17 +79,11 @@ hook: auto snapshot
 
 ### [2025-12-27T14:25] Phase 2.5 Native Hooks
 - .claude/hooks/ with startup/resume/cleanup scripts
-- SessionStart/End automation working
-
-### [2025-12-27T14:15] Session-Start Hook Config
-- .claude/settings.json configured
-- Auto-load context on session init
 
 ### [2025-12-27T13:56] Initial Checkpoint
 - Project structure established
-- Baseline configuration defined
 
 ---
 
-Last Updated: 2025-12-27T17:18:14ZT17:45:00Z
+Last Updated: 2025-12-27T17:19:03ZT17:45:00Z
 Branch: wip/20251227-1524
