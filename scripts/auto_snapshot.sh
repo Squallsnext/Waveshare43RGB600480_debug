@@ -16,13 +16,13 @@ if git diff --quiet HEAD 2>/dev/null && [ -z "$(git status --porcelain)" ]; then
   exit 0
 fi
 
-# 3. Run checkpoint (prefer make, fallback to python3)
+# 3. Run checkpoint-auto (non-interactive, for hooks)
 if [ -f Makefile ]; then
-  make checkpoint 2>/dev/null || python3 scripts/checkpoint.py update-state "auto: snapshot" 2>/dev/null || true
+  AUTO_DESC="hook: auto snapshot" make checkpoint-auto 2>/dev/null || true
 else
-  python3 scripts/checkpoint.py update-state "auto: snapshot" 2>/dev/null || true
+  python3 scripts/checkpoint.py update-state "hook: auto snapshot" 2>/dev/null || true
+  python3 scripts/checkpoint.py update-todo 2>/dev/null || true
 fi
-python3 scripts/checkpoint.py update-todo 2>/dev/null || true
 
 # 4. Stage only whitelisted files
 for path in docs/ .claude/ main/ components/ CMakeLists.txt sdkconfig.defaults partitions.csv idf_component.yml Makefile README.md; do
