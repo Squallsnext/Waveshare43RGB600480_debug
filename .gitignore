@@ -1,0 +1,40 @@
+# ESP-IDF Build Artifacts
+build/
+managed_components/
+sdkconfig
+sdkconfig.old
+sdkconfig.local
+sdkconfig.recommended*
+dependencies.lock
+
+# Generated binaries
+*.bin
+*.elf
+*.map
+*.a
+
+# Python & CMake
+__pycache__/
+*.pyc
+cmake-build-*/
+CMakeUserPresets.json
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# SPIFFS & Firmware
+spiffs*.bin
+
+# OS files
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# Python venv
+venv/
+.python-version
