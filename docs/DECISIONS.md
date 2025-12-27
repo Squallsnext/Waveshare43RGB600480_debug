@@ -186,4 +186,35 @@ AUTO_DESC="hook: auto snapshot" make checkpoint-auto 2>/dev/null || true
 - No changes to checkpoint.py required
 
 ---
-Last Updated: 2025-12-27T16:45:00Z
+
+## ADR-006: STATE.md Rotation Policy
+**Date:** 2025-12-27
+**Status:** ACCEPTED
+
+### Context
+STATE.md grew to 446 lines / 258 KB due to auto-snapshot hooks appending deltas. This exceeded Claude's Read tool token limit (25K tokens), making the file unreadable and defeating its purpose as quick context reference.
+
+### Decision
+Implement STATE rotation policy:
+
+**Limits:**
+- STATE.md max 200 lines OR 12 KB (whichever first)
+- Keep only last 5 meaningful deltas
+
+**Rotation:**
+- When limit exceeded: move older deltas to `docs/state_history/STATE_YYYYMMDD.md`
+- History files are append-only archives
+- STATE.md header references history file location
+
+**Token-Safe Audit:**
+- Use Bash tools (wc, head, tail, grep) instead of Read for large files
+- Never attempt full Read on files >25K tokens
+
+### Consequences
+- STATE.md remains readable in single Read call
+- Full history preserved in state_history/
+- Hooks continue appending; rotation happens when needed
+- Rule of thumb: rotate after ~50 hook deltas
+
+---
+Last Updated: 2025-12-27T17:45:00Z
