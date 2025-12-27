@@ -1,4 +1,4 @@
-.PHONY: session-start checkpoint handoff check-budget auto-snapshot build clean fullclean monitor flash test-build
+.PHONY: session-start checkpoint checkpoint-auto handoff check-budget auto-snapshot build clean fullclean monitor flash test-build
 
 # Context-Safety Session Start (Hook Fallback)
 session-start:
