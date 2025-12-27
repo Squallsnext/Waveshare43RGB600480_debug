@@ -1,5 +1,5 @@
 # Project State - 2025-12-27T13:45:00Z
-
+TODO lives at docs/TODO.md
 ## Current Status
 - Build Status: PASSING
 - Last Successful Build: 2025-12-27T13:50:00Z (217 KB firmware)
@@ -51,6 +51,12 @@ Checkpoint smoke test - verifying system updates
 
 ## Session Delta [2025-12-27T14:25:38Z]
 session-end: checkpoint
+
+## Session Delta [2025-12-27T15:03:28Z]
+session-end: checkpoint
+
+## Session Delta [2025-12-27T15:17:45Z]
+auto: snapshot
 ## Critical Context
 - Conservative pclk (16MHz) for stability
 - DIRECT mode only AFTER VSync smoke test passes
@@ -79,6 +85,6 @@ PHASE 2.5 COMPLETE: NATIVE HOOKS + SCRIPTS IMPLEMENTED ✓
 - SESSION START/END/POSTUSE GATES NOW FULLY OPERATIONAL
 
 ---
-Last Updated: 2025-12-27T14:25:38Z
+Last Updated: 2025-12-27T15:17:45ZT15:03:28ZT14:25:38Z
 Branch: main
 Commit: READY

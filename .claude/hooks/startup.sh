@@ -13,6 +13,16 @@ echo "[SESSION-START] Initializing session context..."
 echo "=================================================="
 echo ""
 
+# 0. Ensure we're on a WIP branch (not main)
+current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")
+if [ "$current_branch" = "main" ] || [ "$current_branch" = "master" ]; then
+  wip_branch="wip/$(date +%Y%m%d-%H%M)"
+  echo "[WIP-BRANCH] Creating: $wip_branch"
+  git checkout -b "$wip_branch" 2>/dev/null || echo "[WIP-BRANCH] Branch already exists, checking out..."
+  git checkout "$wip_branch" 2>/dev/null || true
+  echo ""
+fi
+
 # 1. Verify repo + git
 echo "[1/5] Git Status:"
 git status --short

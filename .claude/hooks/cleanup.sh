@@ -33,9 +33,19 @@ fi
 if echo "$BUDGET_STATUS" | grep -q "LOW"; then
   echo "[3/3] Budget LOW - generating HANDOFF.md..."
   python3 scripts/checkpoint.py generate-handoff 2>/dev/null || true
-  echo "      ✓ HANDOFF.md generated"
+  # Commit HANDOFF.md
+  git add docs/HANDOFF.md 2>/dev/null || true
+  git commit -m "docs: HANDOFF.md – context recovery (budget low)" 2>/dev/null || true
+  echo "      ✓ HANDOFF.md generated and committed"
 else
   echo "[3/3] Budget OK - HANDOFF.md optional"
+fi
+
+# 4. Auto-push if on WIP branch and ahead of origin
+echo "[4/4] Auto-pushing commits..."
+if [ -f scripts/auto_push_if_needed.sh ]; then
+  bash scripts/auto_push_if_needed.sh 2>/dev/null || true
+  echo "      ✓ Push check complete"
 fi
 
 echo ""

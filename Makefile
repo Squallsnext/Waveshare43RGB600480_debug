@@ -1,4 +1,4 @@
-.PHONY: session-start checkpoint handoff check-budget build clean fullclean monitor flash test-build
+.PHONY: session-start checkpoint handoff check-budget auto-snapshot build clean fullclean monitor flash test-build
 
 # Context-Safety Session Start (Hook Fallback)
 session-start:
@@ -27,6 +27,9 @@ handoff:
 
 check-budget:
 	python3 scripts/checkpoint.py check-budget
+
+auto-snapshot:
+	@if [ -f scripts/auto_snapshot.sh ]; then bash scripts/auto_snapshot.sh; else echo "ERROR: scripts/auto_snapshot.sh not found"; exit 1; fi
 
 # ESP-IDF Build Targets
 build:

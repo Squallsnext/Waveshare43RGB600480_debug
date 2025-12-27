@@ -1,5 +1,8 @@
 # Task List - 2025-12-27
 
+## Testing: Auto-Snapshot System
+- Testing Phase 3: Auto-Commit + Auto-Push via Claude Code Hooks
+
 ## Priority 1: Context-Safety (Gate System)
 
 - [x] **Create scripts/checkpoint.py** - DONE
@@ -76,5 +79,5 @@
 - [ ] Optimize pclk_hz, bounce_buffer_height, num_fbs
 
 ---
-Last Updated: 2025-12-27T14:25:38Z 2025-12-27T14:12:38Z
+Last Updated: 2025-12-27T15:17:45Z 2025-12-27T15:03:28Z 2025-12-27T14:25:38Z 2025-12-27T14:12:38Z
 Status: Phase 2.5 COMPLETE - Ready for Phase 3 (documentation templates)
