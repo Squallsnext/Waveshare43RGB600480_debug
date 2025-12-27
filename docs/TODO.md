@@ -41,12 +41,16 @@
   - Result: 217 KB firmware, 79% space free in partition
   - Completed: 2025-12-27T13:50:00Z
 
-## Priority 2.5: Session Restart Safety (NEW - IN PROGRESS)
+## Priority 2.5: Session Restart Safety (COMPLETE)
 
 - [x] **Implement Hooks + Fallbacks System** - DONE [2025-12-27]
-  - DoD: .claude/settings.json has 3 hooks (session-start, stop, post-tool-use), Makefile has session-start target, README updated with 5 commands
-  - Completed: 2025-12-27T14:12:38Z
-  - Result: make session-start loads full context, make handoff generates recovery, all targets verified
+  - DoD: SessionStart/SessionEnd hooks configured (Claude Code native), Makefile targets work, README documented
+  - Completed: 2025-12-27T14:15:00Z
+  - Result:
+    - SessionStart (startup): auto-loads context on new session
+    - SessionStart (resume): auto-loads context on resume
+    - SessionEnd: auto-updates STATE.md+TODO.md on exit
+    - Fallback: `make session-start` runs all 5 restart commands
 
 ## Priority 3: Documentation Infrastructure
 

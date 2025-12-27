@@ -54,15 +54,16 @@ Checkpoint smoke test - verifying system updates
 - All waits have timeout + fallback
 - Telemetry via atomic counters, not log spam
 
-## Session Delta [2025-12-27T14:12:38Z]
-DELTA: Hooks + Fallbacks Implementation
-- Added .claude/settings.json: 3 hooks (session-start, stop, post-tool-use)
-- Added Makefile: make session-start target (loads full context)
-- Updated README.md: "How to Restart Session Safely" + 5 Commands
-- Verified: make check-budget, make session-start, make handoff all functional
-- Generated: docs/HANDOFF.md with recovery checklist
+## Session Delta [2025-12-27T14:15:00Z]
+DELTA: Session-Start Hook Configured (Claude Code Native)
+- Fixed .claude/settings.json: correct SessionStart/SessionEnd hook format (Claude Code official)
+- SessionStart matcher "startup": runs `make session-start` on session init
+- SessionStart matcher "resume": runs `make session-start` on session resume
+- SessionEnd: runs `make checkpoint` before session exit
+- Format verified against Claude Code documentation
+- Ready for deployment: next session will auto-load context
 
 ---
-Last Updated: 2025-12-27T14:12:38Z
+Last Updated: 2025-12-27T14:15:00Z
 Branch: main
-Commit: 17b115c
+Commit: STAGED

@@ -5,20 +5,39 @@
     "commit-gate-enabled": true
   },
   "hooks": {
-    "session-start-hook": {
-      "enabled": true,
-      "command": "make session-start",
-      "description": "On session init: verify repo, git status/log, budget check, read STATE+TODO+HANDOFF, output only (Phase+Next), (Config), (NextFile)"
-    },
-    "stop-hook": {
-      "enabled": true,
-      "command": "make checkpoint",
-      "description": "Before session end: update STATE.md + TODO.md with delta + HANDOFF if budget low"
-    },
-    "post-tool-use-hook": {
-      "enabled": true,
-      "description": "On tool execution: count tool-calls and check context budget; write CONTEXT_BUDGET_LOW flag if threshold exceeded; trigger make handoff on demand"
-    }
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "make session-start",
+            "description": "Load full context: git status/log, budget check, STATE+TODO+HANDOFF"
+          }
+        ]
+      },
+      {
+        "matcher": "resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "make session-start",
+            "description": "Reload context on resume"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "make checkpoint",
+            "description": "Update STATE.md + TODO.md deltas before session end"
+          }
+        ]
+      }
+    ]
   },
   "documentation-gates": {
     "before-commit": [
