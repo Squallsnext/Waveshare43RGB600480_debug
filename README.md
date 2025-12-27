@@ -76,54 +76,60 @@ Metrics:
 
 ---
 
-## Session Restart Checklist
+## How to Restart Session Safely
 
-**If context interrupted or session resumed:**
+**Automatic (via Hooks):**
+- On session start: `session-start-hook` triggers `make session-start` (loads context automatically)
+- On session end: `stop-hook` triggers `make checkpoint` (saves deltas + context)
+- On tool execution: `post-tool-use-hook` monitors budget (generates HANDOFF.md if needed)
 
-1. **Read Status Files**
-   ```bash
-   git status
-   git log -1 --oneline
-   cat docs/STATE.md      # Current baseline config
-   cat docs/TODO.md       # Top 10 tasks with DoD
-   cat docs/HANDOFF.md    # If budget was low
-   ```
+**Manual Fallback (if hooks disabled):**
 
-2. **Check Budget**
-   ```bash
-   make check-budget
-   ```
+The 5 Essential Restart Commands:
+```bash
+1. git status && git log -1 --oneline      # Verify last commit
+2. make check-budget                       # Check docs + budget status
+3. cat docs/STATE.md | head -30            # Load baseline config
+4. cat docs/TODO.md | head -20             # Load task list
+5. cat docs/HANDOFF.md (if exists)         # Load recovery context if budget was low
+```
 
-3. **Continue Work**
-   - Next task listed in docs/TODO.md (Priority 3+)
-   - Run `make checkpoint` after major change
-   - Run `make test-build` before commit
+Or use the convenience target:
+```bash
+make session-start    # Runs all 5 checks at once
+```
 
-4. **Commit Gate**
-   ```bash
-   # Before git commit:
-   make checkpoint              # Updates STATE.md + TODO.md
-   git add docs/ scripts/ Makefile
-   git commit -m "..."
-   ```
+**Workflow:**
+1. On arrival: `make session-start` (loads all context)
+2. Work on task from `docs/TODO.md`
+3. After major changes: `make checkpoint` (updates STATE.md + TODO.md)
+4. Before commit: verify `docs/STATE.md` is updated
+5. On departure: `make handoff` (generates recovery file if budget low)
 
 ---
 
 ## Context-Safety System
 
-**Goal:** Prevent context loss when token budget exhausted.
+**Goal:** Prevent context loss when token budget exhausted + ensure safe session restart.
 
-**Files:**
-- `docs/STATE.md` - Current config + session deltas
-- `docs/TODO.md` - Ranked tasks with definition of done
-- `docs/HANDOFF.md` - Auto-generated recovery file
-- `scripts/checkpoint.py` - Update system
-- `Makefile` - Targets: checkpoint, handoff, check-budget
+**Configuration:**
+- `.claude/settings.json` - Hook definitions + documentation gates
+  - `session-start-hook`: Triggers on session init (loads context)
+  - `stop-hook`: Triggers before session end (saves deltas)
+  - `post-tool-use-hook`: Monitors context budget (generates HANDOFF on budget low)
 
-**Usage:**
+**Documentation Files:**
+- `docs/STATE.md` - Current config + session deltas (updated via checkpoint)
+- `docs/TODO.md` - Ranked tasks with definition of done (updated via checkpoint)
+- `docs/HANDOFF.md` - Auto-generated recovery file (on budget low or manual handoff)
+- `scripts/checkpoint.py` - Update system (executes via Makefile)
+- `Makefile` - Targets: session-start, checkpoint, handoff, check-budget
+
+**Make Targets:**
 ```bash
-make checkpoint              # Interactively update STATE.md with delta
-make check-budget            # Check doc files exist, show status
+make session-start           # Load full context (git status + budget + STATE + TODO + HANDOFF)
+make checkpoint              # Interactively update STATE.md delta + TODO.md top10
+make check-budget            # Verify docs exist + show status
 make handoff                 # Generate HANDOFF.md for emergency restart
 ```
 

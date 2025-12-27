@@ -1,59 +1,31 @@
-# Session Handoff - AUTO-GENERATED
+# Session Handoff - AUTO-GENERATED 2025-12-27T14:12:38Z
 
 **CONTEXT BUDGET LOW / SESSION ENDING**
 
-## Session Summary (5 bullets)
-- [Status 1]
-- [Status 2]
-- [Status 3]
-- [Status 4]
-- [Status 5]
+## Last Session State
+- Timestamp: 2025-12-27T14:12:38Z
+- Last commit: 17b115c context-safety: checkpoint/handoff system + doc gates + verification
+- Git status: M .claude/settings.json
+ M Makefile
+ M README.md
+?? .clangd
 
 ## Build Status
-- Build: [PASSING/FAILING]
-- Last commit: `git log -1 --oneline`
-- Firmware size: [X KB]
-
-## Known Blockers
-- **[BLOCKER-001]**: [Description]
-  - Impact: [what's broken]
-  - Root cause: [if known]
-  - Next: [command to run/file to check]
-
-## Next 5 Actions (Restart Here)
-1. **[Action]**
-   - Command: `[exact]`
-   - Expected: [success looks like]
-   - On Failure: [check this file]
-
-2. **[Action]**
-
-3. **[Action]**
-
-4. **[Action]**
-
-5. **[Action]**
-
-## Files Modified (Git)
-```
-git diff HEAD~1 --name-only
-```
-
-## Session Metrics
-- Duration: [HHmm]
-- Commits: [N]
-- FILES_CREATED: [N]
-- FILES_MODIFIED: [N]
-- STATE.md Size: [X lines]
-- TODO.md Size: [X lines]
+- Run: `git log -1 --oneline`
+- Run: `git status`
+- Run: `idf.py build` (if touching hw)
 
 ## Restart Checklist
-- [ ] Read STATE.md (baseline config + current status)
-- [ ] Read TODO.md (top 10 tasks, DoD)
-- [ ] Run: `git log --oneline -5`
-- [ ] Run: `git status`
-- [ ] Run: `make check-budget` (if build green)
+1. Read STATE.md (current baseline config)
+2. Read TODO.md (top 10 tasks, DoD)
+3. Check git log and status
+4. Run: `make check-budget`
+
+## Next Actions
+- If build is failing: check stderr in previous session logs
+- If git dirty: `git status` to see what changed
+- If docs modified: update STATE.md + TODO.md before commit
 
 ---
-AUTO-GENERATED: [timestamp]
-NEXT_SESSION: Read this file first, then STATE.md, then TODO.md, THEN resume.
+GENERATED: 2025-12-27T14:12:38Z
+READ STATE.md AND TODO.md FIRST, THEN RESUME.

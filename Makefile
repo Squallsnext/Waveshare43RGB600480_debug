@@ -1,4 +1,19 @@
-.PHONY: checkpoint handoff check-budget build clean fullclean monitor flash test-build
+.PHONY: session-start checkpoint handoff check-budget build clean fullclean monitor flash test-build
+
+# Context-Safety Session Start (Hook Fallback)
+session-start:
+	@echo "[SESSION-START] Verifying repo context..."
+	@git status && git log -1 --oneline
+	@make check-budget
+	@echo ""
+	@echo "[STATE]"
+	@head -20 docs/STATE.md
+	@echo ""
+	@echo "[TODO]"
+	@head -20 docs/TODO.md
+	@if [ -f docs/HANDOFF.md ]; then echo "[HANDOFF]"; head -20 docs/HANDOFF.md; fi
+	@echo ""
+	@echo "[SESSION-START] Ready to code. Context loaded."
 
 # Context-Safety Checkpoints
 checkpoint:
@@ -41,6 +56,7 @@ pre-commit:
 
 help:
 	@echo "Context-Safety + Build Targets:"
+	@echo "  make session-start    - Verify repo, show STATUS + TODO + config (session init)"
 	@echo "  make checkpoint       - Update STATE.md + TODO.md with delta"
 	@echo "  make handoff          - Generate HANDOFF.md for context recovery"
 	@echo "  make check-budget     - Check documentation/budget status"
@@ -53,7 +69,8 @@ help:
 	@echo "  make test-build       - fullclean && build (verify reproducible)"
 	@echo ""
 	@echo "Workflow:"
-	@echo "  1. make test-build"
-	@echo "  2. make checkpoint"
-	@echo "  3. git add . && git commit ..."
-	@echo "  4. (before ending) make handoff"
+	@echo "  0. (start)  make session-start"
+	@echo "  1.          make test-build"
+	@echo "  2.          make checkpoint"
+	@echo "  3.          git add . && git commit ..."
+	@echo "  4. (before) make handoff"

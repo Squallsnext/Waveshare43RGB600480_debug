@@ -5,14 +5,19 @@
     "commit-gate-enabled": true
   },
   "hooks": {
+    "session-start-hook": {
+      "enabled": true,
+      "command": "make session-start",
+      "description": "On session init: verify repo, git status/log, budget check, read STATE+TODO+HANDOFF, output only (Phase+Next), (Config), (NextFile)"
+    },
     "stop-hook": {
       "enabled": true,
       "command": "make checkpoint",
-      "description": "Before session end: update STATE.md + TODO.md with delta"
+      "description": "Before session end: update STATE.md + TODO.md with delta + HANDOFF if budget low"
     },
     "post-tool-use-hook": {
-      "enabled": false,
-      "description": "Optional: trigger make handoff when tool-call count > threshold (disabled for now, manual trigger sufficient)"
+      "enabled": true,
+      "description": "On tool execution: count tool-calls and check context budget; write CONTEXT_BUDGET_LOW flag if threshold exceeded; trigger make handoff on demand"
     }
   },
   "documentation-gates": {

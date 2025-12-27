@@ -41,6 +41,13 @@
   - Result: 217 KB firmware, 79% space free in partition
   - Completed: 2025-12-27T13:50:00Z
 
+## Priority 2.5: Session Restart Safety (NEW - IN PROGRESS)
+
+- [x] **Implement Hooks + Fallbacks System** - DONE [2025-12-27]
+  - DoD: .claude/settings.json has 3 hooks (session-start, stop, post-tool-use), Makefile has session-start target, README updated with 5 commands
+  - Completed: 2025-12-27T14:12:38Z
+  - Result: make session-start loads full context, make handoff generates recovery, all targets verified
+
 ## Priority 3: Documentation Infrastructure
 
 - [ ] **Initialize docs templates (7 files)**
@@ -62,5 +69,5 @@
 - [ ] Optimize pclk_hz, bounce_buffer_height, num_fbs
 
 ---
-Last Updated: 2025-12-27T13:56:06Z 2025-12-27T13:45:00Z
-Status: READY TO START
+Last Updated: 2025-12-27T14:12:38Z
+Status: Phase 2.5 COMPLETE - Ready for Phase 3 (documentation templates)

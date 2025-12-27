@@ -54,10 +54,15 @@ Checkpoint smoke test - verifying system updates
 - All waits have timeout + fallback
 - Telemetry via atomic counters, not log spam
 
-## Session Delta [2025-12-27T14:00:00Z]
-DELTA: Context-Safety verification smoke test - checkpoint system functional
+## Session Delta [2025-12-27T14:12:38Z]
+DELTA: Hooks + Fallbacks Implementation
+- Added .claude/settings.json: 3 hooks (session-start, stop, post-tool-use)
+- Added Makefile: make session-start target (loads full context)
+- Updated README.md: "How to Restart Session Safely" + 5 Commands
+- Verified: make check-budget, make session-start, make handoff all functional
+- Generated: docs/HANDOFF.md with recovery checklist
 
 ---
-Last Updated: 2025-12-27T13:56:06ZT13:45:00Z
+Last Updated: 2025-12-27T14:12:38Z
 Branch: main
-Commit: c9a9a0b
+Commit: 17b115c
