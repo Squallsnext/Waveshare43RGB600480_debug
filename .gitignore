@@ -38,3 +38,7 @@ Thumbs.db
 # Python venv
 venv/
 .python-version
+
+# Claude Code session artifacts
+.claude/.tool_counter
+.clangd
