@@ -351,7 +351,7 @@ void board_lcd_create_test_screen(void)
     lv_obj_t *title = lv_label_create(scr);
     lv_label_set_text(title, "VSync Smoke Test");
     lv_obj_set_style_text_color(title, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
-    lv_obj_set_style_text_font(title, &lv_font_montserrat_24, LV_PART_MAIN);
+    lv_obj_set_style_text_font(title, &lv_font_montserrat_14, LV_PART_MAIN);
     lv_obj_align(title, LV_ALIGN_TOP_MID, 0, 20);
 
     /* Scrollable container */
