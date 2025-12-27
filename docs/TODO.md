@@ -58,17 +58,17 @@
   - Verification: All 4 hooks tested + working (100% pass rate)
   - Status: HOOKS NOW LIVE - next session will auto-initialize with full context
 
-## Priority 3: Documentation Infrastructure
+## Priority 3: Documentation Infrastructure (✅ COMPLETE)
 
-- [ ] **Initialize docs templates (7 files)**
-  - DoD: docs/templates/{STATE,TODO,DECISIONS,TESTS,CONFIG_MATRIX,MEASUREMENTS}.template.md exist
-  - Dependencies: None
-  - Complexity: LOW
+- [x] **Initialize docs templates (7 files)** - ✅ DONE [2025-12-27T16:07]
+  - DoD: docs/templates/{STATE,TODO,DECISIONS,TESTS,CONFIG_MATRIX,MEASUREMENTS,COMPONENTS}.template.md exist
+  - Completed: 2025-12-27T16:07:00Z
+  - Templates auto-committed via PostToolUse hook (7 separate snapshots)
 
-- [ ] **Populate docs/CONFIG_MATRIX.md**
-  - DoD: ESP-IDF Kconfig table filled, NVS runtime config table with render_mode/full_refresh separation, validation rules documented
-  - Dependencies: docs/templates/CONFIG_MATRIX.template.md
-  - Complexity: LOW
+- [x] **Populate docs/CONFIG_MATRIX.md** - ✅ DONE [2025-12-27T16:13]
+  - DoD: ESP-IDF Kconfig table filled ✓, NVS runtime config with render_mode/full_refresh separation ✓, validation rules documented ✓
+  - Completed: 2025-12-27T16:13:00Z
+  - Includes: Tuning history, dependency graph, change control process, constraints
 
 ## Backlog (Phase 3+)
 
@@ -79,5 +79,5 @@
 - [ ] Optimize pclk_hz, bounce_buffer_height, num_fbs
 
 ---
-Last Updated: 2025-12-27T16:13:08Z 2025-12-27T16:13:08Z 2025-12-27T16:07:49Z 2025-12-27T16:07:49Z 2025-12-27T16:07:26Z 2025-12-27T16:07:26Z 2025-12-27T16:07:10Z 2025-12-27T16:07:10Z 2025-12-27T16:06:57Z 2025-12-27T16:06:57Z 2025-12-27T16:06:50Z 2025-12-27T16:06:50Z 2025-12-27T16:06:45Z 2025-12-27T16:06:45Z 2025-12-27T16:06:40Z 2025-12-27T16:06:40Z 2025-12-27T15:17:45Z 2025-12-27T15:03:28Z 2025-12-27T14:25:38Z 2025-12-27T14:12:38Z
+Last Updated: 2025-12-27T16:13:27Z 2025-12-27T16:13:27Z 2025-12-27T16:13:08Z 2025-12-27T16:13:08Z 2025-12-27T16:07:49Z 2025-12-27T16:07:49Z 2025-12-27T16:07:26Z 2025-12-27T16:07:26Z 2025-12-27T16:07:10Z 2025-12-27T16:07:10Z 2025-12-27T16:06:57Z 2025-12-27T16:06:57Z 2025-12-27T16:06:50Z 2025-12-27T16:06:50Z 2025-12-27T16:06:45Z 2025-12-27T16:06:45Z 2025-12-27T16:06:40Z 2025-12-27T16:06:40Z 2025-12-27T15:17:45Z 2025-12-27T15:03:28Z 2025-12-27T14:25:38Z 2025-12-27T14:12:38Z
 Status: Phase 2.5 COMPLETE - Ready for Phase 3 (documentation templates)
