@@ -79,28 +79,25 @@
 
 ---
 
-## Touch Input Configuration (GT911 via I2C)
+## Touch Input Configuration (GT911 via I2C) - Verified
 
-| Parameter | Type | Current | Notes |
-|-----------|------|---------|-------|
-| **Driver** | — | GT911 (Goodix) | Capacitive, ESP-IDF driver |
-| **I2C Address** | uint8_t | 0x5D | Default, can be 0x14 if ADDR=0 |
-| **I2C Bus** | i2c_port_t | I2C_NUM_0 | Primary I2C bus |
-| **SCL GPIO** | gpio_num_t | 47 | I2C clock |
-| **SDA GPIO** | gpio_num_t | 48 | I2C data |
-| **I2C Frequency** | uint32_t | 400 kHz | Standard speed |
-| **INT GPIO** | gpio_num_t | 16 | Interrupt line (falling edge) |
-| **RST GPIO** | gpio_num_t | 15 | Reset (active low) |
-| **Swap XY** | bool | false | No axis swap |
-| **Invert X** | bool | false | Normal X axis |
-| **Invert Y** | bool | false | Normal Y axis |
-| **Max Touch Points** | uint8_t | 5 | GT911 supports up to 5 |
+| Parameter | Type | Current | Source |
+|-----------|------|---------|--------|
+| **Driver** | — | GT911 (Goodix) | espressif/esp_lcd_touch_gt911 |
+| **I2C Address** | uint8_t | 0x5D | waveshare_rgb_lcd_port.c:144 |
+| **I2C Bus** | i2c_port_t | I2C_NUM_0 | waveshare_rgb_lcd_port.h:20 |
+| **SCL GPIO** | gpio_num_t | 9 | waveshare_rgb_lcd_port.h:18 |
+| **SDA GPIO** | gpio_num_t | 8 | waveshare_rgb_lcd_port.h:19 |
+| **I2C Frequency** | uint32_t | 400 kHz | waveshare_rgb_lcd_port.h:21 |
+| **INT GPIO** | gpio_num_t | -1 (NC) | line 66 (polling mode) |
+| **RST GPIO** | gpio_num_t | -1 (NC) | line 65 (via CH422G) |
 
-**Driver Implementation:**
-- Use ESP-IDF `esp_lcd_touch` abstraction (not raw I2C)
-- Debounce interrupt: 10 ms minimum
-- CRC check on all I2C reads
-- Timeout watchdog on stuck INT line (2 sec)
+**CH422G IO Expander (for Reset/Backlight):**
+- Config address: 0x24
+- Data address: 0x38
+- Backlight ON: write 0x1E
+- Backlight OFF: write 0x1A
+- Touch reset sequence in waveshare_rgb_lcd_port.c:55-69
 
 ---
 
