@@ -227,7 +227,7 @@ esp_err_t board_lcd_init(void)
         .vsync_gpio_num = LCD_GPIO_VSYNC,
         .de_gpio_num = LCD_GPIO_DE,
         .pclk_gpio_num = LCD_GPIO_PCLK,
-        .disp_gpio_num = LCD_GPIO_BL,  /* -1 if via IO expander */
+        .disp_gpio_num = LCD_GPIO_DISP,  /* -1, via CH422G IO expander */
         .data_gpio_nums = {
             LCD_DATA_GPIO_NUMS
         },
