@@ -1,7 +1,10 @@
 # Task List - 2025-12-27
 
 ## Testing: Auto-Snapshot System
-- Testing Phase 3: Auto-Commit + Auto-Push via Claude Code Hooks
+- Test 1: Auto-Commit bei File-Änderung (in progress)
+- Test 2: Budget-Low + HANDOFF (pending)
+- Test 3: Hook no-op außerhalb Repo (pending)
+- Test 4: main Branch stays clean (pending)
 
 ## Priority 1: Context-Safety (Gate System)
 
@@ -79,5 +82,5 @@
 - [ ] Optimize pclk_hz, bounce_buffer_height, num_fbs
 
 ---
-Last Updated: 2025-12-27T15:17:45Z 2025-12-27T15:03:28Z 2025-12-27T14:25:38Z 2025-12-27T14:12:38Z
+Last Updated: 2025-12-27T15:24:06Z 2025-12-27T15:18:03Z 2025-12-27T15:17:45Z 2025-12-27T15:03:28Z 2025-12-27T14:25:38Z 2025-12-27T14:12:38Z
 Status: Phase 2.5 COMPLETE - Ready for Phase 3 (documentation templates)

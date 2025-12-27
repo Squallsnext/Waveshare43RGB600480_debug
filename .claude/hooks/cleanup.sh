@@ -5,8 +5,9 @@
 
 set -e
 
-REPO_DIR="${CLAUDE_PROJECT_DIR:-.}"
-cd "$REPO_DIR"
+# Find repo root robustly; exit silently if not in a git repo
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+cd "$repo_root" || exit 0
 
 echo ""
 echo "=================================================="

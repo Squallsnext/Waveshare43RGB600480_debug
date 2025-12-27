@@ -57,6 +57,12 @@ session-end: checkpoint
 
 ## Session Delta [2025-12-27T15:17:45Z]
 auto: snapshot
+
+## Session Delta [2025-12-27T15:18:03Z]
+session-end: checkpoint
+
+## Session Delta [2025-12-27T15:24:06Z]
+auto: snapshot
 ## Critical Context
 - Conservative pclk (16MHz) for stability
 - DIRECT mode only AFTER VSync smoke test passes
@@ -85,6 +91,6 @@ PHASE 2.5 COMPLETE: NATIVE HOOKS + SCRIPTS IMPLEMENTED ✓
 - SESSION START/END/POSTUSE GATES NOW FULLY OPERATIONAL
 
 ---
-Last Updated: 2025-12-27T15:17:45ZT15:03:28ZT14:25:38Z
+Last Updated: 2025-12-27T15:24:06ZT15:18:03ZT15:17:45ZT15:03:28ZT14:25:38Z
 Branch: main
 Commit: READY
