@@ -70,14 +70,34 @@
   - Completed: 2025-12-27T16:13:00Z
   - Includes: Tuning history, dependency graph, change control process, constraints
 
-## Backlog (Phase 3+)
+## Priority 4: Board Component (Phase 4) - ✅ BUILD COMPLETE
 
-- [ ] board_lcd.c (RGB panel init, LVGL flush callback, VSync gating)
+- [x] **board_pins.h with verified Waveshare pins** - ✅ DONE [2025-12-27T17:30]
+  - DoD: All 16 RGB data pins from Waveshare demo (08_lvgl_Porting)
+  - Completed: Pins verified, pclk_active_neg=1, CH422G config
+
+- [x] **board_lcd.c LCD initialization** - ✅ DONE [2025-12-27T17:30]
+  - DoD: esp_lcd_rgb_panel config, LVGL flush stub, VSync callback stub
+  - Completed: Build passes (222 KB)
+
+- [x] **idf_component.yml for LVGL** - ✅ DONE [2025-12-27T17:30]
+  - DoD: LVGL 9.2 + esp_lcd_touch dependencies
+
+- [x] **STATE.md rotation** - ✅ DONE [2025-12-27T17:45]
+  - DoD: STATE.md ≤200 lines, history in docs/state_history/
+  - Completed: 446→86 lines, ADR-006 documented
+
+- [ ] **VSync Smoke Test** - PENDING (requires flash)
+  - DoD: vsync_delta > 0, ideally ~60Hz
+  - Gate: STOP if vsync=0
+
+## Backlog (Phase 5+)
+
 - [ ] board_touch.c (GT911 driver, LVGL input device)
 - [ ] board_telemetry.c (1-second task, atomic counters)
-- [ ] VSync Smoke Test (verify ~60Hz delta/sec, STOP if 0)
 - [ ] Optimize pclk_hz, bounce_buffer_height, num_fbs
+- [ ] eez_ui integration
 
 ---
-Last Updated: 2025-12-27T17:19:17Z 2025-12-27T17:19:03Z 2025-12-27T17:18:14Z 2025-12-27T17:16:28Z 2025-12-27T17:16:02Z 2025-12-27T17:09:22Z 2025-12-27T17:09:10Z 2025-12-27T17:08:49Z 2025-12-27T17:08:35Z 2025-12-27T17:08:22Z 2025-12-27T17:08:14Z 2025-12-27T17:07:49Z 2025-12-27T17:06:54Z 2025-12-27T17:05:29Z 2025-12-27T17:05:22Z 2025-12-27T17:05:16Z 2025-12-27T17:05:02Z 2025-12-27T17:04:55Z 2025-12-27T17:04:33Z 2025-12-27T16:53:34Z 2025-12-27T16:51:08Z 2025-12-27T16:50:57Z 2025-12-27T16:50:49Z 2025-12-27T16:49:41Z 2025-12-27T16:49:23Z 2025-12-27T16:44:28Z 2025-12-27T16:44:16Z 2025-12-27T16:43:58Z 2025-12-27T16:43:03Z 2025-12-27T16:42:43Z 2025-12-27T16:42:43Z 2025-12-27T16:42:32Z 2025-12-27T16:42:32Z 2025-12-27T16:38:46Z 2025-12-27T16:38:46Z 2025-12-27T16:27:48Z 2025-12-27T16:14:40Z 2025-12-27T16:14:40Z 2025-12-27T16:13:27Z 2025-12-27T16:13:27Z 2025-12-27T16:13:08Z 2025-12-27T16:13:08Z 2025-12-27T16:07:49Z 2025-12-27T16:07:49Z 2025-12-27T16:07:26Z 2025-12-27T16:07:26Z 2025-12-27T16:07:10Z 2025-12-27T16:07:10Z 2025-12-27T16:06:57Z 2025-12-27T16:06:57Z 2025-12-27T16:06:50Z 2025-12-27T16:06:50Z 2025-12-27T16:06:45Z 2025-12-27T16:06:45Z 2025-12-27T16:06:40Z 2025-12-27T16:06:40Z 2025-12-27T15:17:45Z 2025-12-27T15:03:28Z 2025-12-27T14:25:38Z 2025-12-27T14:12:38Z
-Status: Phase 2.5 COMPLETE - Ready for Phase 3 (documentation templates)
+Last Updated: 2025-12-27T17:19:53Z 2025-12-27T17:45:00Z
+Status: Phase 4.1 BUILD COMPLETE - Awaiting VSync smoke test (flash required)
