@@ -45,13 +45,19 @@ telemetry_enabled:  true
 7. VSync Smoke Test - VSync counter must show ~60Hz delta/sec, if 0 STOP
 8. Documentation Gate - STATE.md + TODO.md updated before commit
 
+
+## Session Delta [2025-12-27T13:56:06Z]
+Checkpoint smoke test - verifying system updates
 ## Critical Context
 - Conservative pclk (16MHz) for stability
 - DIRECT mode only AFTER VSync smoke test passes
 - All waits have timeout + fallback
 - Telemetry via atomic counters, not log spam
 
+## Session Delta [2025-12-27T14:00:00Z]
+DELTA: Context-Safety verification smoke test - checkpoint system functional
+
 ---
-Last Updated: 2025-12-27T13:45:00Z
+Last Updated: 2025-12-27T13:56:06ZT13:45:00Z
 Branch: main
 Commit: c9a9a0b

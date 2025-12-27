@@ -90,11 +90,12 @@ def update_todo_md():
 
 def check_budget():
     """Check context budget (git log size, transcript lines, etc)."""
-    log_size = len(run_cmd("git log --oneline"))
+    log_output = run_cmd("git log --oneline")
+    log_lines = len(log_output.split("\n"))
     file_count = len(run_cmd("find . -type f").split("\n"))
 
     print("[BUDGET CHECK]")
-    print(f"  Git log size: ~{len(log_size)} chars")
+    print(f"  Git log lines: {log_lines}")
     print(f"  Files in repo: {file_count}")
     print(f"  STATE.md exists: {os.path.exists(STATE_FILE)}")
     print(f"  TODO.md exists: {os.path.exists(TODO_FILE)}")

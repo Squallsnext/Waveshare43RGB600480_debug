@@ -67,10 +67,76 @@ Metrics:
 
 ## Status
 
-🚧 **Work in Progress** - Building debug infrastructure
+🚧 **Work in Progress** - Phase 2: Foundation Build Complete
 
-- [ ] App config & NVS system
-- [ ] LVGL port with callbacks
-- [ ] Mode 3 validation & VSync gating
-- [ ] Debug telemetry infrastructure
-- [ ] Mode2 vs Mode3 comparison tests
+- [x] Context-Safety System (checkpoint.py, Makefile, documentation gates)
+- [x] Foundation Build (CMakeLists.txt, sdkconfig, components stubbed)
+- [ ] Phase 3: Component Implementation (board_lcd, board_touch, board_telemetry)
+- [ ] VSync Smoke Test (must pass before DIRECT mode upgrade)
+
+---
+
+## Session Restart Checklist
+
+**If context interrupted or session resumed:**
+
+1. **Read Status Files**
+   ```bash
+   git status
+   git log -1 --oneline
+   cat docs/STATE.md      # Current baseline config
+   cat docs/TODO.md       # Top 10 tasks with DoD
+   cat docs/HANDOFF.md    # If budget was low
+   ```
+
+2. **Check Budget**
+   ```bash
+   make check-budget
+   ```
+
+3. **Continue Work**
+   - Next task listed in docs/TODO.md (Priority 3+)
+   - Run `make checkpoint` after major change
+   - Run `make test-build` before commit
+
+4. **Commit Gate**
+   ```bash
+   # Before git commit:
+   make checkpoint              # Updates STATE.md + TODO.md
+   git add docs/ scripts/ Makefile
+   git commit -m "..."
+   ```
+
+---
+
+## Context-Safety System
+
+**Goal:** Prevent context loss when token budget exhausted.
+
+**Files:**
+- `docs/STATE.md` - Current config + session deltas
+- `docs/TODO.md` - Ranked tasks with definition of done
+- `docs/HANDOFF.md` - Auto-generated recovery file
+- `scripts/checkpoint.py` - Update system
+- `Makefile` - Targets: checkpoint, handoff, check-budget
+
+**Usage:**
+```bash
+make checkpoint              # Interactively update STATE.md with delta
+make check-budget            # Check doc files exist, show status
+make handoff                 # Generate HANDOFF.md for emergency restart
+```
+
+---
+
+## Building Phase 3
+
+After Phase 2 (current) is complete:
+
+1. Create `components/board_waveshare_rgb/board_lcd.c` (RGB panel init, LVGL flush callback, VSync gating)
+2. Create `components/board_waveshare_rgb/board_touch.c` (GT911 driver, LVGL input)
+3. Create `components/board_waveshare_rgb/board_telemetry.c` (1-second task, atomic counters, logging)
+4. **VSync Smoke Test**: Verify VSync counter ~60Hz delta/sec, STOP if 0
+5. Flash tests, baseline measurements
+
+See `docs/TODO.md` for detailed task list with DoD.

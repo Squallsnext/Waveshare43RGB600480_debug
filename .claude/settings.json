@@ -1,0 +1,32 @@
+{
+  "context-safety": {
+    "checkpoint-on-exit": true,
+    "handoff-on-budget-low": true,
+    "commit-gate-enabled": true
+  },
+  "hooks": {
+    "stop-hook": {
+      "enabled": true,
+      "command": "make checkpoint",
+      "description": "Before session end: update STATE.md + TODO.md with delta"
+    },
+    "post-tool-use-hook": {
+      "enabled": false,
+      "description": "Optional: trigger make handoff when tool-call count > threshold (disabled for now, manual trigger sufficient)"
+    }
+  },
+  "documentation-gates": {
+    "before-commit": [
+      "docs/STATE.md (must be updated)",
+      "docs/TODO.md (must be updated)",
+      "Build must be PASSING or status explained"
+    ]
+  },
+  "restart-sequence": {
+    "1-status": "git status && git log -1 --oneline",
+    "2-budget": "make check-budget",
+    "3-state": "cat docs/STATE.md | head -30",
+    "4-todos": "cat docs/TODO.md | head -20",
+    "5-handoff": "cat docs/HANDOFF.md (if session interrupted)"
+  }
+}
