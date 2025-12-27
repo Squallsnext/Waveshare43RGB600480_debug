@@ -144,4 +144,46 @@ This ensures hooks are:
 - Non-destructive on network errors
 
 ---
-Last Updated: 2025-12-27T15:25:00Z
+
+## ADR-005: Non-Interactive checkpoint-auto for Hooks
+**Date:** 2025-12-27
+**Status:** ACCEPTED
+
+### Context
+The PostToolUse hook runs `scripts/auto_snapshot.sh`, which originally called `make checkpoint`. The `checkpoint` target uses `read -p "Describe change..."` to prompt for user input. This caused hooks to hang indefinitely waiting for input that never comes (hooks run non-interactively).
+
+### Problem
+```
+make checkpoint
+# Hangs on: "Describe change (one line): "
+# Hook timeout → session blocked
+```
+
+### Decision
+Add a separate `checkpoint-auto` Makefile target:
+- **`checkpoint`** (manual): Interactive, prompts for description via `read -p`
+- **`checkpoint-auto`** (hooks): Non-interactive, uses `$AUTO_DESC` env var or default "auto snapshot"
+
+Update `auto_snapshot.sh` to call `make checkpoint-auto` instead of `make checkpoint`.
+
+### Implementation
+```makefile
+# Makefile
+checkpoint-auto:
+	@python3 scripts/checkpoint.py update-state "$${AUTO_DESC:-auto snapshot}" 2>/dev/null || true
+	@python3 scripts/checkpoint.py update-todo 2>/dev/null || true
+```
+
+```bash
+# auto_snapshot.sh
+AUTO_DESC="hook: auto snapshot" make checkpoint-auto 2>/dev/null || true
+```
+
+### Consequences
+- Hooks run without blocking (~0.03s execution time)
+- Manual `make checkpoint` remains interactive for human use
+- Commit messages from hooks have prefix "hook:" for easy identification
+- No changes to checkpoint.py required
+
+---
+Last Updated: 2025-12-27T16:45:00Z
