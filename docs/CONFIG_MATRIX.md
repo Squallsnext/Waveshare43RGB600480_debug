@@ -46,16 +46,36 @@
 
 ---
 
-## Panel Configuration (Hardware Fixed)
+## Panel Configuration (Verified from Waveshare Demo 2025-12-27)
 
-| Parameter | Type | Value | Notes |
-|-----------|------|-------|-------|
-| **Resolution** | uint16_t | 600 × 480 | Waveshare 4.3" RGB panel |
-| **Refresh Rate** | uint16_t | 60 Hz | Hardware timing fixed |
-| **HSYNC Polarity** | uint8_t | 0 (low active) | Panel-specific |
-| **VSYNC Polarity** | uint8_t | 0 (low active) | Panel-specific |
-| **DE Polarity** | uint8_t | 1 (high active) | Panel-specific |
-| **Pixel Format** | enum | RGB565 | 16-bit color (default LVGL) |
+| Parameter | Type | Value | Source |
+|-----------|------|-------|--------|
+| **Resolution** | uint16_t | 800 × 480 | lvgl_port.h:24-25 |
+| **Refresh Rate** | uint16_t | ~60 Hz | Calculated from timing |
+| **PCLK Active Neg** | bool | 1 (true) | waveshare_rgb_lcd_port.c:91 |
+| **HSYNC/VSYNC Idle** | — | default (0) | waveshare_rgb_lcd_port.c |
+| **Pixel Format** | enum | RGB565 | 16-bit, 16 data lines |
+
+### LCD GPIO Mapping (from waveshare_rgb_lcd_port.h)
+
+| Signal | GPIO | Source Line |
+|--------|------|-------------|
+| PCLK | 7 | line 42 |
+| HSYNC | 46 | line 40 |
+| VSYNC | 3 | line 39 |
+| DE | 5 | line 41 |
+| DATA0-15 | 14,38,18,17,10,39,0,45,48,47,21,1,2,42,41,40 | lines 43-58 |
+
+### LCD Timing (from waveshare_rgb_lcd_port.c:84-89)
+
+| Parameter | Value |
+|-----------|-------|
+| hsync_pulse_width | 4 |
+| hsync_back_porch | 8 |
+| hsync_front_porch | 8 |
+| vsync_pulse_width | 4 |
+| vsync_back_porch | 8 |
+| vsync_front_porch | 8 |
 
 ---
 
