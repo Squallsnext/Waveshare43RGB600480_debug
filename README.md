@@ -157,7 +157,7 @@ make handoff                 # Generate HANDOFF.md for emergency restart
 2. **PostToolUse Hook** (`.claude/hooks/post_tool_use.sh`)
    - Triggered after file-modifying tools: `Write`, `Edit`, `NotebookEdit`, `TodoWrite`
    - Runs `scripts/auto_snapshot.sh`:
-     - Executes `make checkpoint` (updates STATE.md + TODO.md with minimal delta)
+     - Executes `make checkpoint-auto` (non-interactive, updates STATE.md + TODO.md)
      - Selectively stages changes (excludes build artifacts: `build/`, `managed_components/`, `*.bin`, `*.elf`)
      - Creates automatic commit: `auto: checkpoint YYYY-MM-DD HH:MM (N files) – <file summary>`
    - Silent no-op if no changes or outside a git repo
