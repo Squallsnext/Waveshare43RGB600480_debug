@@ -211,10 +211,10 @@ esp_err_t board_lcd_init(void)
             .vsync_back_porch = LCD_VSYNC_BACK_PORCH,
             .vsync_front_porch = LCD_VSYNC_FRONT_PORCH,
             .flags = {
-                .hsync_idle_low = 1,
-                .vsync_idle_low = 1,
+                .hsync_idle_low = 0,
+                .vsync_idle_low = 0,
                 .de_idle_high = 0,
-                .pclk_active_neg = 0,
+                .pclk_active_neg = LCD_PCLK_ACTIVE_NEG,  /* 1 = active low (from Waveshare demo) */
                 .pclk_idle_high = 0,
             },
         },
