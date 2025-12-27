@@ -21,6 +21,11 @@ checkpoint:
 	python3 scripts/checkpoint.py update-state "$$desc"
 	python3 scripts/checkpoint.py update-todo
 
+# Non-interactive checkpoint for hooks (AUTO_DESC env var or default)
+checkpoint-auto:
+	@python3 scripts/checkpoint.py update-state "$${AUTO_DESC:-auto snapshot}" 2>/dev/null || true
+	@python3 scripts/checkpoint.py update-todo 2>/dev/null || true
+
 handoff:
 	python3 scripts/checkpoint.py generate-handoff
 	@echo "[HANDOFF] Created docs/HANDOFF.md - commit or share for context recovery"
