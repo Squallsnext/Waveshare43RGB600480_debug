@@ -135,6 +135,96 @@ make handoff                 # Generate HANDOFF.md for emergency restart
 
 ---
 
+## Auto-Snapshot Workflow (Claude Code Hooks)
+
+**Goal:** Automatically commit changes after every file modification, keep WIP branches safe, push to origin when session ends.
+
+**How It Works:**
+
+1. **SessionStart Hook** (`.claude/hooks/startup.sh`)
+   - Triggered when Claude Code starts a session (new or resume)
+   - Automatically creates/switches to `wip/YYYYMMDD-HHMM` branch if on `main/master` (prevents direct main commits)
+   - Runs `make check-budget` to verify context health
+   - Loads STATE.md + TODO.md for context
+
+2. **PostToolUse Hook** (`.claude/hooks/post_tool_use.sh`)
+   - Triggered after file-modifying tools: `Write`, `Edit`, `NotebookEdit`, `TodoWrite`
+   - Runs `scripts/auto_snapshot.sh`:
+     - Executes `make checkpoint` (updates STATE.md + TODO.md with minimal delta)
+     - Selectively stages changes (excludes build artifacts: `build/`, `managed_components/`, `*.bin`, `*.elf`)
+     - Creates automatic commit: `auto: checkpoint YYYY-MM-DD HH:MM (N files) – <file summary>`
+   - Silent no-op if no changes or outside a git repo
+
+3. **SessionEnd Hook** (`.claude/hooks/cleanup.sh`)
+   - Triggered when Claude Code session ends (exit, clear, logout)
+   - Updates STATE.md + TODO.md (final checkpoint)
+   - Generates `docs/HANDOFF.md` if context budget is LOW
+   - Runs `scripts/auto_push_if_needed.sh`:
+     - Pushes commits to origin if on WIP branch and ahead of remote
+     - Never pushes from `main/master` (safe-guard)
+     - Silent exit if no commits or network errors
+
+**Benefits:**
+- ✅ No manual `git add . && git commit` — fully automatic
+- ✅ main branch stays clean — WIP branches for all work
+- ✅ Token-sparse — minimal checkpoint delta, fast hooks
+- ✅ Rollback-safe — every file change becomes a commit, easy recovery
+- ✅ Non-destructive — never deletes, never force-pushes, never cleans
+
+**Examples:**
+
+```bash
+# Scenario 1: You edit docs/TODO.md
+1. You use Edit tool to update docs/TODO.md
+2. PostToolUse hook triggers auto-snapshot
+3. Commit created: "auto: checkpoint 2025-12-27 15:24 (2 files) – docs/TODO.md, docs/STATE.md"
+4. You keep working, no friction
+
+# Scenario 2: Session ends with uncommitted work
+1. Claude Code session ends (exit or timeout)
+2. SessionEnd hook runs cleanup.sh
+3. Final checkpoint committed
+4. If on WIP branch: push to origin/wip/YYYYMMDD-HHMM
+5. Next session resumes exactly where it left off
+
+# Scenario 3: You restart on main branch
+1. Claude Code session starts
+2. SessionStart hook detects branch == main
+3. Creates new branch: wip/20251227-1530
+4. Checkouts to new branch
+5. No commits on main, ever
+```
+
+**Disable Auto-Snapshot (if needed):**
+
+Option 1: Temporarily disable PostToolUse hook:
+```bash
+# Edit .claude/settings.json, comment out PostToolUse section:
+#   "PostToolUse": [ ... ]
+```
+
+Option 2: Delete the hook script:
+```bash
+rm .claude/hooks/post_tool_use.sh
+```
+
+Option 3: Disable in settings:
+```json
+{
+  "context-safety": {
+    "auto-snapshot-enabled": false
+  }
+}
+```
+
+**Manual Equivalent:**
+If hooks are disabled, manually replicate auto-snapshot:
+```bash
+make auto-snapshot  # Same as: checkpoint + git add + git commit
+```
+
+---
+
 ## Building Phase 3
 
 After Phase 2 (current) is complete:

@@ -62,4 +62,86 @@ Implement checkpoint system:
 - Audit trail of changes (delta blocks with ISO timestamps)
 
 ---
-Last Updated: 2025-12-27T14:00:00Z
+
+## ADR-004: Auto-Snapshot via Claude Code Hooks
+**Date:** 2025-12-27
+**Status:** ACCEPTED
+
+### Context
+Manual `git add . && git commit` after each change is friction-heavy and error-prone. Need automatic commit system that:
+- Commits after every file modification (via Claude Code hooks)
+- Prevents accidental commits to main branch
+- Avoids large build artifacts in commits
+- Pushes to WIP branch only when session ends
+- Works seamlessly without token overhead
+
+### Decision
+Implement auto-snapshot system with three Claude Code hooks:
+
+1. **SessionStart Hook** (`startup.sh`)
+   - Detects if on main/master, creates WIP branch if needed
+   - Prevents direct main commits (each session gets own wip/YYYYMMDD-HHMM branch)
+
+2. **PostToolUse Hook** (`post_tool_use.sh` + `auto_snapshot.sh`)
+   - Triggers after Write/Edit/NotebookEdit/TodoWrite
+   - Runs checkpoint (minimal STATE.md + TODO.md delta)
+   - Selectively stages changes (excludes build/, *.bin, *.elf, etc)
+   - Creates auto-commit with format: `auto: checkpoint YYYY-MM-DD HH:MM (N files) – <summary>`
+
+3. **SessionEnd Hook** (`cleanup.sh` + `auto_push_if_needed.sh`)
+   - Final checkpoint before session ends
+   - Pushes to origin/wip/* if ahead of remote
+   - Generates HANDOFF.md if budget low
+   - Never pushes from main/master
+
+### Consequences
+
+**Pros:**
+- ✅ Zero manual commits required — all changes captured automatically
+- ✅ main branch stays clean — impossible to commit directly to main
+- ✅ Token-sparse — hooks are lightweight, minimal I/O
+- ✅ Rollback-safe — every edit becomes a commit, easy recovery
+- ✅ Non-destructive — never uses `git clean -fd`, never force-pushes
+- ✅ Graceful degradation — silent no-op if outside repo or no origin
+
+**Cons:**
+- ⚠️ More commits in history (one per file change)
+- ⚠️ Requires Claude Code hook support (not portable to other editors)
+- ⚠️ Build artifacts must be manually excluded (git ignore can help)
+
+**Mitigations:**
+- Exclude common artifacts in auto_snapshot.sh: build/, managed_components/, sdkconfig*, *.bin, *.elf, *.map
+- Can disable auto-snapshot by commenting PostToolUse hook in .claude/settings.json
+- Manual equivalent: `make auto-snapshot` if hooks fail
+
+### Trade-offs Considered
+
+| Alternative | Pros | Cons |
+|---|---|---|
+| **Auto-Snapshot (chosen)** | Automatic, safe, minimal overhead | More commits in history |
+| Manual checkpoint after task | Cleaner history | Requires discipline, loses work if forgotten |
+| Pre-commit hook (git hook) | Works in any editor | Can't distinguish "should commit" from "still editing" |
+| Scheduled background commits | Batches work | Loses real-time recovery |
+
+### Implementation Details
+
+**Files:**
+- `scripts/auto_snapshot.sh` — Main logic: checkpoint + git add + git commit
+- `scripts/auto_push_if_needed.sh` — Safe push to WIP branch only
+- `.claude/hooks/post_tool_use.sh` — Hook entry point for PostToolUse
+- `.claude/settings.json` — Hook configuration
+
+**Safety Checks:**
+```bash
+# All scripts implement:
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+cd "$repo_root" || exit 0
+```
+
+This ensures hooks are:
+- Repo-location-agnostic (work from any directory)
+- Silent no-op if not in a git repo
+- Non-destructive on network errors
+
+---
+Last Updated: 2025-12-27T15:25:00Z
